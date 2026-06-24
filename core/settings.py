@@ -1,4 +1,5 @@
 import os
+from django.core.management import call_command
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -107,3 +108,10 @@ AUTH_USER_MODEL = 'twitter.User'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
+
+# Executa as migrações automaticamente no Neon assim que o container ligar na Vercel
+if os.environ.get('VERCEL'):
+    try:
+        call_command('migrate', interactive=False)
+    except Exception as e:
+        print(f"Aviso de migração: {e}")
