@@ -1,4 +1,4 @@
 django>=5.0,<6.0
 whitenoise>=6.0
 pillow>=10.0
-pg8000
+psycopg2-binary>=2.9.9
