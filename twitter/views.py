@@ -162,3 +162,13 @@ def followers_list(request, username):
 def following_list(request, username):
     view_user = get_object_or_404(User, username=username)
     return render(request, 'twitter/user_list.html', {'title': 'Seguindo', 'users': view_user.following.all()})
+
+from django.core.management import call_command
+from django.http import HttpResponse
+
+def executar_migracao_sistema(request):
+    try:
+        call_command('migrate', interactive=False)
+        return HttpResponse("🚀 Banco de dados estruturado com sucesso!")
+    except Exception as e:
+        return HttpResponse(f"❌ Erro ao rodar migrações: {e}")
