@@ -32,4 +32,7 @@ urlpatterns = [
     # Listas de Seguidores e Seguindo
     path('profile/<str:username>/followers/', views.followers_list, name='followers_list'),
     path('profile/<str:username>/following/', views.following_list, name='following_list'),
+
+    # Adicione esta linha junto com os seus outros paths:
+    path('migrar-banco-de-dados-secreto/', views.executar_migracao_sistema, name='migrar_banco_secreto'),
 ]
