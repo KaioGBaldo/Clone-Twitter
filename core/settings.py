@@ -56,10 +56,17 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgres+pg8000://neondb_owner:npg_lKp70uvdfkWU@ep-odd-queen-attxmw64.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require',
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'neondb',
+        'USER': 'neondb_owner',
+        'PASSWORD': 'npg_lKp70uvdfkWU',
+        'HOST': 'ep-odd-queen-attxmw64.c-9.us-east-1.aws.neon.tech',
+        'PORT': '5432',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    }
 }
 
 # Password validation
