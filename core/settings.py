@@ -54,7 +54,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database - Configuração Segura para o Neon.tech
+# Database - Configuração direta para o PostgreSQL do Neon.tech
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -68,12 +68,6 @@ DATABASES = {
         },
     }
 }
-
-# COMPATIBILIDADE VERCEL SERVERLESS (Substitui o psycopg2 binário pelo driver puro pg8000)
-if os.environ.get('VERCEL'):
-    import pg8000
-    import sys
-    sys.modules['psycopg2'] = pg8000
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
