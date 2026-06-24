@@ -1,5 +1,4 @@
 import os
-from django.core.management import call_command
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -9,9 +8,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dndoxxc*dr!@iy_)a-%q3ab@hmx+bh0we_(v9!)78rqt#!&hia'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True # Pode manter True para ver erros caso o deploy falhe, depois mude para False
+DEBUG = True 
 
-# LIBERANDO O SITE PARA O RENDER
+# LIBERANDO O SITE PARA O RENDER E VERCEL
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -27,7 +26,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware', # <--- OBRIGATÓRIO PARA DEPLOY
+    'whitenoise.middleware.WhiteNoiseMiddleware', # OBRIGATÓRIO PARA DEPLOY
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,7 +54,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# Database
+# Database - Configuração Segura para o Neon.tech
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -69,6 +68,12 @@ DATABASES = {
         },
     }
 }
+
+# COMPATIBILIDADE VERCEL SERVERLESS (Substitui o psycopg2 binário pelo driver puro pg8000)
+if os.environ.get('VERCEL'):
+    import pg8000
+    import sys
+    sys.modules['psycopg2'] = pg8000
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -87,14 +92,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Internationalization
-LANGUAGE_CODE = 'pt-br' # Mudado para Português
-TIME_ZONE = 'America/Sao_Paulo' # Mudado para horário de Brasília
+LANGUAGE_CODE = 'pt-br' 
+TIME_ZONE = 'America/Sao_Paulo' 
 USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles' # <--- OBRIGATÓRIO PARA DEPLOY
+STATIC_ROOT = BASE_DIR / 'staticfiles' 
 
 # Armazenamento eficiente de arquivos estáticos no deploy
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -108,10 +113,3 @@ AUTH_USER_MODEL = 'twitter.User'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
-
-# Executa as migrações automaticamente no Neon assim que o container ligar na Vercel
-if os.environ.get('VERCEL'):
-    try:
-        call_command('migrate', interactive=False)
-    except Exception as e:
-        print(f"Aviso de migração: {e}")
