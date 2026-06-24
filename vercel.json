@@ -4,7 +4,10 @@
     {
       "src": "core/wsgi.py",
       "use": "@vercel/python",
-      "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
+      "config": { 
+        "maxLambdaSize": "15mb", 
+        "runtime": "python3.12" 
+      }
     }
   ],
   "routes": [
@@ -12,5 +15,10 @@
       "src": "/(.*)",
       "dest": "core/wsgi.py"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "DJANGO_SETTINGS_MODULE": "core.settings"
+    }
+  }
 }
