@@ -1,5 +1,4 @@
 django>=5.0,<6.0
 whitenoise>=6.0
 pillow>=10.0
-dj-database-url
 pg8000
