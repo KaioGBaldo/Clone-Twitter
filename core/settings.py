@@ -56,10 +56,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://neondb_owner:npg_lKp70uvdfkWU@ep-odd-queen-attxmw64.c-9.us-east-1.aws.neon.tech/neondb?sslmode=require',
+        conn_max_age=600
+    )
 }
 
 # Password validation
